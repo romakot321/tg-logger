@@ -40,11 +40,11 @@ class BotHandler:
         self.bot.register_message_handler(self._handle_add_admin_message, commands=['start'])
 
     def _handle_add_admin_message(self, message):
-        print("Message from", message.from_user.id, ":", message.text)
+        print("Message from", message.from_user.id, message.chat.id, ":", message.text)
         token = message.text.split()
         if self.ACCESS_TOKEN not in token:
             return
-        if self._add_admin(message.from_user.id):
+        if self._add_admin(message.chat.id):
             self.bot.send_message(message.chat.id, "Вы подписались на уведомления об ошибках")
 
     def _add_admin(self, telegram_id: int):
