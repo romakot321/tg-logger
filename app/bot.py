@@ -52,13 +52,13 @@ class BotHandler:
         if telegram_id in admins:
             return False
         admins.append(telegram_id)
-        with open('admins.json', 'w') as f:
+        with open('data/admins.json', 'w') as f:
             json.dump({"admins": admins}, f)
         return True
 
     def _list_admins(self) -> list[int]:
         try:
-            with open('admins.json', 'r') as f:
+            with open('data/admins.json', 'r') as f:
                 return json.load(f)["admins"]
         except FileNotFoundError:
             return []

@@ -9,7 +9,7 @@ services:
       - .env
     restart: always
     volumes:
-      - tg_logger-storage:/app
+      - tg_logger-storage:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
 
 
