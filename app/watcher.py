@@ -1,6 +1,7 @@
 import time
 import threading
 from message import MessageRepository
+import docker
 
 
 class Watcher:
@@ -23,7 +24,12 @@ class Watcher:
     def _watch(self):
         while self.running:
             time.sleep(self.UPDATE_TIME)
-            logs = self.container.logs(since=int(time.time()) - self.LOGS_SINCE).decode('utf-8')
+            try:
+                logs = self.container.logs(since=int(time.time()) - self.LOGS_SINCE).decode('utf-8')
+            except docker.errors.NotFound:
+                self.container = self.docker_client.containers.get(self.container_name)
+                logs = self.container.logs(since=int(time.time()) - self.LOGS_SINCE).decode('utf-8')
+
             if 'error' in logs.lower():
                 print("Error in", self.container_name)
                 self.message_repository.add(self.container_name, logs)

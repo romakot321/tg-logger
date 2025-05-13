@@ -31,7 +31,7 @@ class BotHandler:
         self.bot.stop_bot()
 
     def send_message(self, msg: Message):
-        text = f"Ошибка в контейнере {msg.container_name} в {msg.created_at}.\n```{msg.logs[:3900]}```"
+        text = f"Ошибка в контейнере {msg.container_name} в {msg.created_at}.\n```{msg.logs[-500:]}```"
         text = escape_markdown(text)
         for admin in self._list_admins():
             self.bot.send_message(admin, text, parse_mode="MarkdownV2")
